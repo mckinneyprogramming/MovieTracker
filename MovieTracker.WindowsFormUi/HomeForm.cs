@@ -11,10 +11,7 @@ namespace MovieTracker.WindowsFormUi
         private readonly Color _buttonGreenHoverColor = Color.FromArgb(12, 107, 48);
 
         private MovieTrackerUnitOfWork? _unitOfWork;
-        private readonly string _databasePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-            "SQLite Databases",
-            "MovieTracker.db");
+        private static string DatabasePath => DatabasePathHelper.GetDatabasePath();
 
         public HomeForm()
         {
@@ -30,14 +27,14 @@ namespace MovieTracker.WindowsFormUi
         private void HomeForm_Load(object sender, EventArgs e)
         {
             // Ensure database directory exists
-            var directory = Path.GetDirectoryName(_databasePath);
+            var directory = Path.GetDirectoryName(DatabasePath);
             if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
             // Initialize database
-            _unitOfWork = new MovieTrackerUnitOfWork(_databasePath);
+            _unitOfWork = new MovieTrackerUnitOfWork(DatabasePath);
             _unitOfWork.InitializeDatabase();
 
             // Load statistics
