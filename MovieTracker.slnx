@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="MovieTracker.ConsoleUi/MovieTracker.ConsoleUi.csproj" />
+  <Project Path="MovieTracker.Logic/MovieTracker.Logic.csproj" />
+  <Project Path="MovieTracker.Tests/MovieTracker.Tests.csproj" />
+  <Project Path="MovieTracker.WindowsFormUi/MovieTracker.WindowsFormUi.csproj" />
+</Solution>
