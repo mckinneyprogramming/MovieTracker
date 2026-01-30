@@ -1,4 +1,5 @@
 using System.Drawing.Drawing2D;
+using MovieTracker.Logic.Data.Repositories;
 
 namespace MovieTracker.WindowsFormUi
 {
@@ -9,14 +10,17 @@ namespace MovieTracker.WindowsFormUi
         private readonly Color _buttonRedColor = Color.FromArgb(232, 17, 35);
         private readonly Color _buttonRedHoverColor = Color.FromArgb(194, 14, 29);
 
+        private readonly AwardRepository? _awardRepository;
+
         public string AwardName { get; private set; } = string.Empty;
         public string AwardCategory { get; private set; } = string.Empty;
         public int AwardYear { get; private set; }
         public bool Won { get; private set; }
 
-        public AwardDialog(int? defaultYear = null)
+        public AwardDialog(int? defaultYear = null, AwardRepository? awardRepository = null)
         {
             InitializeComponent();
+            _awardRepository = awardRepository;
 
             // Enable double buffering for smooth rendering
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
@@ -31,6 +35,53 @@ namespace MovieTracker.WindowsFormUi
             if (defaultYear.HasValue)
             {
                 numYear.Value = defaultYear.Value;
+            }
+
+            Load += AwardDialog_Load;
+        }
+
+        private void AwardDialog_Load(object? sender, EventArgs e)
+        {
+            LoadAwardNames();
+        }
+
+        private void LoadAwardNames()
+        {
+            if (_awardRepository == null) return;
+
+            cboAwardName.Items.Clear();
+            var names = _awardRepository.GetDistinctAwardNames();
+            foreach (var name in names)
+            {
+                cboAwardName.Items.Add(name);
+            }
+            if (cboAwardName.Items.Count > 0)
+            {
+                cboAwardName.SelectedIndex = 0;
+            }
+        }
+
+        private void cboAwardName_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            LoadCategoriesForSelectedAward();
+        }
+
+        private void LoadCategoriesForSelectedAward()
+        {
+            cboCategory.Items.Clear();
+            if (_awardRepository == null) return;
+
+            var selectedName = cboAwardName.SelectedItem?.ToString();
+            if (string.IsNullOrWhiteSpace(selectedName)) return;
+
+            var categories = _awardRepository.GetCategoriesByAwardName(selectedName);
+            foreach (var category in categories)
+            {
+                cboCategory.Items.Add(category);
+            }
+            if (cboCategory.Items.Count > 0)
+            {
+                cboCategory.SelectedIndex = 0;
             }
         }
 
@@ -59,26 +110,39 @@ namespace MovieTracker.WindowsFormUi
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            // Validate
-            if (string.IsNullOrWhiteSpace(txtAwardName.Text))
+            // Resolve award name: use "add new" text if provided, otherwise selected dropdown value
+            var awardName = txtNewAwardName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(awardName))
             {
-                MessageBox.Show("Please enter an award name.", "Validation Error",
+                awardName = cboAwardName.SelectedItem?.ToString()?.Trim() ?? string.Empty;
+            }
+
+            // Resolve category: use "add new" text if provided, otherwise selected dropdown value
+            var category = txtNewCategory.Text.Trim();
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                category = cboCategory.SelectedItem?.ToString()?.Trim() ?? string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(awardName))
+            {
+                MessageBox.Show("Please select or enter an award name.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtAwardName.Focus();
+                cboAwardName.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtCategory.Text))
+            if (string.IsNullOrWhiteSpace(category))
             {
-                MessageBox.Show("Please enter a category.", "Validation Error",
+                MessageBox.Show("Please select or enter a category.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCategory.Focus();
+                cboCategory.Focus();
                 return;
             }
 
-            // Set properties
-            AwardName = txtAwardName.Text.Trim();
-            AwardCategory = txtCategory.Text.Trim();
+            // Set properties (these will be added to the movie when the form is saved)
+            AwardName = awardName;
+            AwardCategory = category;
             AwardYear = (int)numYear.Value;
             Won = chkWon.Checked;
 

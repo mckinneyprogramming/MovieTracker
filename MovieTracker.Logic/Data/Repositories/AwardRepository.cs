@@ -88,5 +88,52 @@ namespace MovieTracker.Logic.Data.Repositories
 
             return awards;
         }
+
+        /// <summary>
+        /// Gets all distinct award names from the database for use in dropdowns.
+        /// </summary>
+        public List<string> GetDistinctAwardNames()
+        {
+            var names = new List<string>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetDistinctAwardNames;
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var name = reader.GetString(0);
+                if (!string.IsNullOrWhiteSpace(name))
+                    names.Add(name);
+            }
+
+            return names;
+        }
+
+        /// <summary>
+        /// Gets distinct categories for a given award name for use in dropdowns.
+        /// </summary>
+        public List<string> GetCategoriesByAwardName(string awardName)
+        {
+            var categories = new List<string>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetCategoriesByAwardName;
+            command.Parameters.AddWithValue("@AwardName", awardName ?? string.Empty);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var category = reader.GetString(0);
+                if (!string.IsNullOrWhiteSpace(category))
+                    categories.Add(category);
+            }
+
+            return categories;
+        }
     }
 }

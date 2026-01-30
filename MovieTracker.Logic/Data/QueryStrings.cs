@@ -1,4 +1,4 @@
-﻿namespace MovieTracker.Logic.Data
+namespace MovieTracker.Logic.Data
 {
     /// <summary>
     /// Provides SQL query strings for database operations.
@@ -58,6 +58,10 @@
         public const string GetAwardsByMovieId = "SELECT * FROM Awards WHERE MovieId = @MovieId ORDER BY Year DESC;";
 
         public const string GetAwardsWon = "SELECT * FROM Awards WHERE Won = 1 ORDER BY Year DESC;";
+
+        public const string GetDistinctAwardNames = "SELECT DISTINCT AwardName FROM Awards ORDER BY AwardName;";
+
+        public const string GetCategoriesByAwardName = "SELECT DISTINCT Category FROM Awards WHERE AwardName = @AwardName ORDER BY Category;";
 
         #endregion
 

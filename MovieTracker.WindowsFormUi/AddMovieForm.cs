@@ -145,9 +145,9 @@ namespace MovieTracker.WindowsFormUi
         {
             // Calculate suggested year (release year + 1)
             int suggestedYear = (int)numReleaseYear.Value + 1;
-            
-            // Open award dialog with suggested year
-            using var awardDialog = new AwardDialog(suggestedYear);
+
+            // Open award dialog with suggested year and repository for dropdowns
+            using var awardDialog = new AwardDialog(suggestedYear, _unitOfWork?.Awards);
             if (awardDialog.ShowDialog() == DialogResult.OK)
             {
                 dgvAwards.Rows.Add(
