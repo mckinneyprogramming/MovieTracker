@@ -1,5 +1,6 @@
 using MovieTracker.Logic.Data;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace MovieTracker.WindowsFormUi
 {
@@ -45,15 +46,25 @@ namespace MovieTracker.WindowsFormUi
         {
             try
             {
-                if (_unitOfWork != null)
-                {
-                    var movies = _unitOfWork.Movies.GetAll(_unitOfWork.Awards);
-                    lblTotalMoviesCount.Text = movies.Count.ToString();
-                }
+                if (_unitOfWork == null) return;
+
+                var movies = _unitOfWork.Movies.GetAll(_unitOfWork.Awards);
+
+                lblTotalMoviesCount.Text = movies.Count.ToString();
+                lblWatchedCount.Text = movies.Count(m => m.IsWatched).ToString();
+                lblDisneyCount.Text = movies.Count(m => m.IsDisney).ToString();
+                lblNFRCount.Text = movies.Count(m => m.IsNationalFilmRegistry).ToString();
+                lblTotalAwardsCount.Text = movies.Sum(m => m.Awards.Count).ToString();
+                lblSummariesCount.Text = _unitOfWork.Summaries.GetCount().ToString();
             }
-            catch (Exception ex)
+            catch
             {
-                lblTotalMoviesCount.Text = "Error";
+                lblTotalMoviesCount.Text = "—";
+                lblWatchedCount.Text = "—";
+                lblDisneyCount.Text = "—";
+                lblNFRCount.Text = "—";
+                lblTotalAwardsCount.Text = "—";
+                lblSummariesCount.Text = "—";
             }
         }
 
@@ -130,9 +141,9 @@ namespace MovieTracker.WindowsFormUi
 
         private void btnViewMovies_Click(object sender, EventArgs e)
         {
-            // TODO: Create ViewMoviesForm
-            MessageBox.Show("View Movies feature coming soon!", "Coming Soon",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using var viewMoviesForm = new ViewMoviesForm();
+            viewMoviesForm.ShowDialog();
+            LoadStatistics();
         }
 
         private void btnUpdateMovie_Click(object sender, EventArgs e)

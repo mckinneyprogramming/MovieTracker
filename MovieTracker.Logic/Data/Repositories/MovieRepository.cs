@@ -170,5 +170,149 @@ namespace MovieTracker.Logic.Data.Repositories
 
             return movies;
         }
+
+        public List<Movie> GetDisney(AwardRepository awardRepository)
+        {
+            var movies = new List<Movie>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetDisneyMovies;
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                movies.Add(DataMapper.MapMovie(reader));
+            }
+            reader.Close();
+
+            foreach (var movie in movies)
+            {
+                movie.Awards = awardRepository.GetByMovieId(movie.MovieId);
+            }
+
+            return movies;
+        }
+
+        public List<Movie> GetNationalFilmRegistry(AwardRepository awardRepository)
+        {
+            var movies = new List<Movie>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetNationalFilmRegistryMovies;
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                movies.Add(DataMapper.MapMovie(reader));
+            }
+            reader.Close();
+
+            foreach (var movie in movies)
+            {
+                movie.Awards = awardRepository.GetByMovieId(movie.MovieId);
+            }
+
+            return movies;
+        }
+
+        public List<Movie> GetUnwatched(AwardRepository awardRepository)
+        {
+            var movies = new List<Movie>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetUnwatchedMovies;
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                movies.Add(DataMapper.MapMovie(reader));
+            }
+            reader.Close();
+
+            foreach (var movie in movies)
+            {
+                movie.Awards = awardRepository.GetByMovieId(movie.MovieId);
+            }
+
+            return movies;
+        }
+
+        public List<Movie> GetByReleaseYearRange(int yearFrom, int yearTo, AwardRepository awardRepository)
+        {
+            var movies = new List<Movie>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetMoviesByReleaseYearRange;
+            command.Parameters.AddWithValue("@YearFrom", yearFrom);
+            command.Parameters.AddWithValue("@YearTo", yearTo);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                movies.Add(DataMapper.MapMovie(reader));
+            }
+            reader.Close();
+
+            foreach (var movie in movies)
+            {
+                movie.Awards = awardRepository.GetByMovieId(movie.MovieId);
+            }
+
+            return movies;
+        }
+
+        public List<Movie> GetByAwardName(string awardName, AwardRepository awardRepository)
+        {
+            var movies = new List<Movie>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetMoviesByAwardName;
+            command.Parameters.AddWithValue("@AwardName", awardName ?? string.Empty);
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                movies.Add(DataMapper.MapMovie(reader));
+            }
+            reader.Close();
+
+            foreach (var movie in movies)
+            {
+                movie.Awards = awardRepository.GetByMovieId(movie.MovieId);
+            }
+
+            return movies;
+        }
+
+        /// <summary>
+        /// Gets distinct release years from the database for use in filter dropdowns.
+        /// </summary>
+        public List<int> GetDistinctReleaseYears()
+        {
+            var years = new List<int>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetDistinctReleaseYears;
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                years.Add(reader.GetInt32(0));
+            }
+
+            return years;
+        }
     }
 }

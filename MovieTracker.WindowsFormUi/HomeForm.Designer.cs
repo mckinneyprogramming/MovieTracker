@@ -1,4 +1,4 @@
-﻿namespace MovieTracker.WindowsFormUi
+namespace MovieTracker.WindowsFormUi
 {
     partial class HomeForm
     {
@@ -23,6 +23,16 @@
             lblStatsTitle = new Label();
             lblTotalMovies = new Label();
             lblTotalMoviesCount = new Label();
+            lblWatched = new Label();
+            lblWatchedCount = new Label();
+            lblDisney = new Label();
+            lblDisneyCount = new Label();
+            lblNFR = new Label();
+            lblNFRCount = new Label();
+            lblTotalAwards = new Label();
+            lblTotalAwardsCount = new Label();
+            lblSummaries = new Label();
+            lblSummariesCount = new Label();
             panelActions = new Panel();
             lblQuickActions = new Label();
             panelBtnAddMovie = new Panel();
@@ -111,12 +121,22 @@
             // panelStats
             // 
             panelStats.BackColor = Color.White;
+            panelStats.Controls.Add(lblSummariesCount);
+            panelStats.Controls.Add(lblSummaries);
+            panelStats.Controls.Add(lblTotalAwardsCount);
+            panelStats.Controls.Add(lblTotalAwards);
+            panelStats.Controls.Add(lblNFRCount);
+            panelStats.Controls.Add(lblNFR);
+            panelStats.Controls.Add(lblDisneyCount);
+            panelStats.Controls.Add(lblDisney);
+            panelStats.Controls.Add(lblWatchedCount);
+            panelStats.Controls.Add(lblWatched);
             panelStats.Controls.Add(lblTotalMoviesCount);
             panelStats.Controls.Add(lblTotalMovies);
             panelStats.Controls.Add(lblStatsTitle);
             panelStats.Location = new Point(33, 33);
             panelStats.Name = "panelStats";
-            panelStats.Size = new Size(834, 80);
+            panelStats.Size = new Size(834, 120);
             panelStats.TabIndex = 0;
             panelStats.Paint += panelCard_Paint;
             // 
@@ -136,7 +156,7 @@
             lblTotalMovies.AutoSize = true;
             lblTotalMovies.Font = new Font("Segoe UI", 10F);
             lblTotalMovies.ForeColor = Color.Gray;
-            lblTotalMovies.Location = new Point(20, 45);
+            lblTotalMovies.Location = new Point(20, 48);
             lblTotalMovies.Name = "lblTotalMovies";
             lblTotalMovies.Size = new Size(94, 19);
             lblTotalMovies.TabIndex = 1;
@@ -147,11 +167,121 @@
             lblTotalMoviesCount.AutoSize = true;
             lblTotalMoviesCount.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lblTotalMoviesCount.ForeColor = Color.FromArgb(0, 120, 212);
-            lblTotalMoviesCount.Location = new Point(115, 42);
+            lblTotalMoviesCount.Location = new Point(118, 45);
             lblTotalMoviesCount.Name = "lblTotalMoviesCount";
             lblTotalMoviesCount.Size = new Size(23, 25);
             lblTotalMoviesCount.TabIndex = 2;
             lblTotalMoviesCount.Text = "0";
+            // 
+            // lblWatched
+            // 
+            lblWatched.AutoSize = true;
+            lblWatched.Font = new Font("Segoe UI", 10F);
+            lblWatched.ForeColor = Color.Gray;
+            lblWatched.Location = new Point(200, 48);
+            lblWatched.Name = "lblWatched";
+            lblWatched.Size = new Size(62, 19);
+            lblWatched.TabIndex = 3;
+            lblWatched.Text = "Watched:";
+            // 
+            // lblWatchedCount
+            // 
+            lblWatchedCount.AutoSize = true;
+            lblWatchedCount.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblWatchedCount.ForeColor = Color.FromArgb(0, 120, 212);
+            lblWatchedCount.Location = new Point(265, 45);
+            lblWatchedCount.Name = "lblWatchedCount";
+            lblWatchedCount.Size = new Size(23, 25);
+            lblWatchedCount.TabIndex = 4;
+            lblWatchedCount.Text = "0";
+            // 
+            // lblDisney
+            // 
+            lblDisney.AutoSize = true;
+            lblDisney.Font = new Font("Segoe UI", 10F);
+            lblDisney.ForeColor = Color.Gray;
+            lblDisney.Location = new Point(340, 48);
+            lblDisney.Name = "lblDisney";
+            lblDisney.Size = new Size(51, 19);
+            lblDisney.TabIndex = 5;
+            lblDisney.Text = "Disney:";
+            // 
+            // lblDisneyCount
+            // 
+            lblDisneyCount.AutoSize = true;
+            lblDisneyCount.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblDisneyCount.ForeColor = Color.FromArgb(0, 120, 212);
+            lblDisneyCount.Location = new Point(394, 45);
+            lblDisneyCount.Name = "lblDisneyCount";
+            lblDisneyCount.Size = new Size(23, 25);
+            lblDisneyCount.TabIndex = 6;
+            lblDisneyCount.Text = "0";
+            // 
+            // lblNFR
+            // 
+            lblNFR.AutoSize = true;
+            lblNFR.Font = new Font("Segoe UI", 10F);
+            lblNFR.ForeColor = Color.Gray;
+            lblNFR.Location = new Point(20, 82);
+            lblNFR.Name = "lblNFR";
+            lblNFR.Size = new Size(35, 19);
+            lblNFR.TabIndex = 7;
+            lblNFR.Text = "NFR:";
+            // 
+            // lblNFRCount
+            // 
+            lblNFRCount.AutoSize = true;
+            lblNFRCount.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblNFRCount.ForeColor = Color.FromArgb(0, 120, 212);
+            lblNFRCount.Location = new Point(58, 79);
+            lblNFRCount.Name = "lblNFRCount";
+            lblNFRCount.Size = new Size(23, 25);
+            lblNFRCount.TabIndex = 8;
+            lblNFRCount.Text = "0";
+            // 
+            // lblTotalAwards
+            // 
+            lblTotalAwards.AutoSize = true;
+            lblTotalAwards.Font = new Font("Segoe UI", 10F);
+            lblTotalAwards.ForeColor = Color.Gray;
+            lblTotalAwards.Location = new Point(140, 82);
+            lblTotalAwards.Name = "lblTotalAwards";
+            lblTotalAwards.Size = new Size(92, 19);
+            lblTotalAwards.TabIndex = 9;
+            lblTotalAwards.Text = "Total Awards:";
+            // 
+            // lblTotalAwardsCount
+            // 
+            lblTotalAwardsCount.AutoSize = true;
+            lblTotalAwardsCount.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTotalAwardsCount.ForeColor = Color.FromArgb(0, 120, 212);
+            lblTotalAwardsCount.Location = new Point(235, 79);
+            lblTotalAwardsCount.Name = "lblTotalAwardsCount";
+            lblTotalAwardsCount.Size = new Size(23, 25);
+            lblTotalAwardsCount.TabIndex = 10;
+            lblTotalAwardsCount.Text = "0";
+            // 
+            // lblSummaries
+            // 
+            lblSummaries.AutoSize = true;
+            lblSummaries.Font = new Font("Segoe UI", 10F);
+            lblSummaries.ForeColor = Color.Gray;
+            lblSummaries.Location = new Point(340, 82);
+            lblSummaries.Name = "lblSummaries";
+            lblSummaries.Size = new Size(79, 19);
+            lblSummaries.TabIndex = 11;
+            lblSummaries.Text = "Summaries:";
+            // 
+            // lblSummariesCount
+            // 
+            lblSummariesCount.AutoSize = true;
+            lblSummariesCount.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblSummariesCount.ForeColor = Color.FromArgb(0, 120, 212);
+            lblSummariesCount.Location = new Point(422, 79);
+            lblSummariesCount.Name = "lblSummariesCount";
+            lblSummariesCount.Size = new Size(23, 25);
+            lblSummariesCount.TabIndex = 12;
+            lblSummariesCount.Text = "0";
             // 
             // panelActions
             // 
@@ -162,7 +292,7 @@
             panelActions.Controls.Add(panelBtnViewMovies);
             panelActions.Controls.Add(panelBtnAddMovie);
             panelActions.Controls.Add(lblQuickActions);
-            panelActions.Location = new Point(33, 130);
+            panelActions.Location = new Point(33, 170);
             panelActions.Name = "panelActions";
             panelActions.Size = new Size(834, 370);
             panelActions.TabIndex = 1;
@@ -516,6 +646,16 @@
         private Label lblStatsTitle;
         private Label lblTotalMovies;
         private Label lblTotalMoviesCount;
+        private Label lblWatched;
+        private Label lblWatchedCount;
+        private Label lblDisney;
+        private Label lblDisneyCount;
+        private Label lblNFR;
+        private Label lblNFRCount;
+        private Label lblTotalAwards;
+        private Label lblTotalAwardsCount;
+        private Label lblSummaries;
+        private Label lblSummariesCount;
         private Panel panelActions;
         private Label lblQuickActions;
         private Panel panelBtnAddMovie;

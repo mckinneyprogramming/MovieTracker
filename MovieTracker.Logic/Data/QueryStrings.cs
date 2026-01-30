@@ -38,6 +38,22 @@ namespace MovieTracker.Logic.Data
 
         public const string GetMoviesByGenre = "SELECT * FROM Movies WHERE Genre = @Genre ORDER BY Title;";
 
+        public const string GetDisneyMovies = "SELECT * FROM Movies WHERE IsDisney = 1 ORDER BY Title;";
+
+        public const string GetNationalFilmRegistryMovies = "SELECT * FROM Movies WHERE IsNationalFilmRegistry = 1 ORDER BY Title;";
+
+        public const string GetUnwatchedMovies = "SELECT * FROM Movies WHERE IsWatched = 0 ORDER BY Title;";
+
+        public const string GetMoviesByReleaseYearRange = "SELECT * FROM Movies WHERE ReleaseYear IS NOT NULL AND ReleaseYear >= @YearFrom AND ReleaseYear <= @YearTo ORDER BY Title;";
+
+        public const string GetMoviesByAwardName = @"
+            SELECT DISTINCT m.* FROM Movies m
+            INNER JOIN Awards a ON m.MovieId = a.MovieId
+            WHERE a.AwardName = @AwardName
+            ORDER BY m.Title;";
+
+        public const string GetDistinctReleaseYears = "SELECT DISTINCT ReleaseYear FROM Movies WHERE ReleaseYear IS NOT NULL ORDER BY ReleaseYear;";
+
         #endregion
 
         #region Award Queries
@@ -92,6 +108,8 @@ namespace MovieTracker.Logic.Data
             INNER JOIN SummaryMovies sm ON m.MovieId = sm.MovieId
             WHERE sm.SummaryId = @SummaryId
             ORDER BY m.Title;";
+
+        public const string GetSummaryCount = "SELECT COUNT(*) FROM Summaries;";
 
         #endregion
     }

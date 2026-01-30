@@ -89,6 +89,19 @@ namespace MovieTracker.Logic.Data.Repositories
             return null;
         }
 
+        /// <summary>
+        /// Gets the total number of summaries (lightweight, no movie loading).
+        /// </summary>
+        public int GetCount()
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = QueryStrings.GetSummaryCount;
+            var result = command.ExecuteScalar();
+            return Convert.ToInt32(result);
+        }
+
         public List<Summary> GetAll(MovieRepository movieRepository, AwardRepository awardRepository)
         {
             var summaries = new List<Summary>();
